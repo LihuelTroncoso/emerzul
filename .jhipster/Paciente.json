@@ -1,0 +1,48 @@
+{
+  "applications": "*",
+  "changelogDate": "20221115231722",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "paciente",
+  "fields": [
+    {
+      "fieldName": "intervenciones",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "antecedentesFamiliares",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "estadoGeneral",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "enfermedades",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "discapacidades",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "tipoSangre",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Paciente",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "usuario",
+      "ownerSide": true,
+      "relationshipName": "usuario",
+      "relationshipType": "one-to-one"
+    }
+  ],
+  "service": "no"
+}
