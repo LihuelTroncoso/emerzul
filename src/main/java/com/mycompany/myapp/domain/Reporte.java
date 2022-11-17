@@ -27,25 +27,26 @@ public class Reporte implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "hora_inicio", nullable = false)
-    private Instant horaInicio;
+    @Column(name = "area", nullable = false)
+    private String area;
 
     @NotNull
-    @Column(name = "hora_final", nullable = false)
-    private Instant horaFinal;
+    @Column(name = "origen", nullable = false)
+    private String origen;
 
     @NotNull
-    @Column(name = "tipo", nullable = false)
-    private String tipo;
+    @Column(name = "hora", nullable = false)
+    private Instant hora;
 
-    @NotNull
-    @Column(name = "alerta", nullable = false)
-    private Boolean alerta;
+    @JsonIgnoreProperties(value = { "pacientes" }, allowSetters = true)
+    @OneToOne
+    @JoinColumn(unique = true)
+    private Llamado llamado;
 
     @OneToMany(mappedBy = "reporte")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "zona", "reporte" }, allowSetters = true)
-    private Set<Usuario> usuarios = new HashSet<>();
+    @JsonIgnoreProperties(value = { "reporte" }, allowSetters = true)
+    private Set<Enfermero> enfermeros = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -62,86 +63,86 @@ public class Reporte implements Serializable {
         this.id = id;
     }
 
-    public Instant getHoraInicio() {
-        return this.horaInicio;
+    public String getArea() {
+        return this.area;
     }
 
-    public Reporte horaInicio(Instant horaInicio) {
-        this.setHoraInicio(horaInicio);
+    public Reporte area(String area) {
+        this.setArea(area);
         return this;
     }
 
-    public void setHoraInicio(Instant horaInicio) {
-        this.horaInicio = horaInicio;
+    public void setArea(String area) {
+        this.area = area;
     }
 
-    public Instant getHoraFinal() {
-        return this.horaFinal;
+    public String getOrigen() {
+        return this.origen;
     }
 
-    public Reporte horaFinal(Instant horaFinal) {
-        this.setHoraFinal(horaFinal);
+    public Reporte origen(String origen) {
+        this.setOrigen(origen);
         return this;
     }
 
-    public void setHoraFinal(Instant horaFinal) {
-        this.horaFinal = horaFinal;
+    public void setOrigen(String origen) {
+        this.origen = origen;
     }
 
-    public String getTipo() {
-        return this.tipo;
+    public Instant getHora() {
+        return this.hora;
     }
 
-    public Reporte tipo(String tipo) {
-        this.setTipo(tipo);
+    public Reporte hora(Instant hora) {
+        this.setHora(hora);
         return this;
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public void setHora(Instant hora) {
+        this.hora = hora;
     }
 
-    public Boolean getAlerta() {
-        return this.alerta;
+    public Llamado getLlamado() {
+        return this.llamado;
     }
 
-    public Reporte alerta(Boolean alerta) {
-        this.setAlerta(alerta);
+    public void setLlamado(Llamado llamado) {
+        this.llamado = llamado;
+    }
+
+    public Reporte llamado(Llamado llamado) {
+        this.setLlamado(llamado);
         return this;
     }
 
-    public void setAlerta(Boolean alerta) {
-        this.alerta = alerta;
+    public Set<Enfermero> getEnfermeros() {
+        return this.enfermeros;
     }
 
-    public Set<Usuario> getUsuarios() {
-        return this.usuarios;
-    }
-
-    public void setUsuarios(Set<Usuario> usuarios) {
-        if (this.usuarios != null) {
-            this.usuarios.forEach(i -> i.setReporte(null));
+    public void setEnfermeros(Set<Enfermero> enfermeros) {
+        if (this.enfermeros != null) {
+            this.enfermeros.forEach(i -> i.setReporte(null));
         }
-        if (usuarios != null) {
-            usuarios.forEach(i -> i.setReporte(this));
+        if (enfermeros != null) {
+            enfermeros.forEach(i -> i.setReporte(this));
         }
-        this.usuarios = usuarios;
+        this.enfermeros = enfermeros;
     }
 
-    public Reporte usuarios(Set<Usuario> usuarios) {
-        this.setUsuarios(usuarios);
+    public Reporte enfermeros(Set<Enfermero> enfermeros) {
+        this.setEnfermeros(enfermeros);
         return this;
     }
 
-    public Reporte addUsuario(Usuario usuario) {
-        this.usuarios.add(usuario);
-        usuario.setReporte(this);
+    public Reporte addEnfermero(Enfermero enfermero) {
+        this.enfermeros.add(enfermero);
+        enfermero.setReporte(this);
         return this;
     }
 
-    public Reporte removeUsuario(Usuario usuario) {
-        this.usuarios.remove(usuario);
-        usuario.setReporte(null);
+    public Reporte removeEnfermero(Enfermero enfermero) {
+        this.enfermeros.remove(enfermero);
+        enfermero.setReporte(null);
         return this;
     }
 
@@ -169,10 +170,9 @@ public class Reporte implements Serializable {
     public String toString() {
         return "Reporte{" +
             "id=" + getId() +
-            ", horaInicio='" + getHoraInicio() + "'" +
-            ", horaFinal='" + getHoraFinal() + "'" +
-            ", tipo='" + getTipo() + "'" +
-            ", alerta='" + getAlerta() + "'" +
+            ", area='" + getArea() + "'" +
+            ", origen='" + getOrigen() + "'" +
+            ", hora='" + getHora() + "'" +
             "}";
     }
 }

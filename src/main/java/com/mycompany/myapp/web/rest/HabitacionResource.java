@@ -128,8 +128,8 @@ public class HabitacionResource {
                 if (habitacion.getNombre() != null) {
                     existingHabitacion.setNombre(habitacion.getNombre());
                 }
-                if (habitacion.getUrgencia() != null) {
-                    existingHabitacion.setUrgencia(habitacion.getUrgencia());
+                if (habitacion.getTipo() != null) {
+                    existingHabitacion.setTipo(habitacion.getTipo());
                 }
                 if (habitacion.getZona() != null) {
                     existingHabitacion.setZona(habitacion.getZona());

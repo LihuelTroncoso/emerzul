@@ -48,7 +48,7 @@ export const Habitacion = () => {
               <tr>
                 <th>ID</th>
                 <th>Nombre</th>
-                <th>Urgencia</th>
+                <th>Tipo</th>
                 <th>Zona</th>
                 <th />
               </tr>
@@ -62,7 +62,7 @@ export const Habitacion = () => {
                     </Button>
                   </td>
                   <td>{habitacion.nombre}</td>
-                  <td>{habitacion.urgencia}</td>
+                  <td>{habitacion.tipo}</td>
                   <td>{habitacion.zona}</td>
                   <td className="text-end">
                     <div className="btn-group flex-btn-group-container">

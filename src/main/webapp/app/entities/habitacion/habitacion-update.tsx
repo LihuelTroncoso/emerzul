@@ -89,14 +89,13 @@ export const HabitacionUpdate = () => {
                 }}
               />
               <ValidatedField
-                label="Urgencia"
-                id="habitacion-urgencia"
-                name="urgencia"
-                data-cy="urgencia"
+                label="Tipo"
+                id="habitacion-tipo"
+                name="tipo"
+                data-cy="tipo"
                 type="text"
                 validate={{
                   required: { value: true, message: 'Este campo es obligatorio.' },
-                  validate: v => isNumber(v) || 'Este campo debe ser un número.',
                 }}
               />
               <ValidatedField

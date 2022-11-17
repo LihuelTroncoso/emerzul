@@ -125,17 +125,14 @@ public class ReporteResource {
         Optional<Reporte> result = reporteRepository
             .findById(reporte.getId())
             .map(existingReporte -> {
-                if (reporte.getHoraInicio() != null) {
-                    existingReporte.setHoraInicio(reporte.getHoraInicio());
+                if (reporte.getArea() != null) {
+                    existingReporte.setArea(reporte.getArea());
                 }
-                if (reporte.getHoraFinal() != null) {
-                    existingReporte.setHoraFinal(reporte.getHoraFinal());
+                if (reporte.getOrigen() != null) {
+                    existingReporte.setOrigen(reporte.getOrigen());
                 }
-                if (reporte.getTipo() != null) {
-                    existingReporte.setTipo(reporte.getTipo());
-                }
-                if (reporte.getAlerta() != null) {
-                    existingReporte.setAlerta(reporte.getAlerta());
+                if (reporte.getHora() != null) {
+                    existingReporte.setHora(reporte.getHora());
                 }
 
                 return existingReporte;

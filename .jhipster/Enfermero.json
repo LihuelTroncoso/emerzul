@@ -1,0 +1,33 @@
+{
+  "applications": "*",
+  "changelogDate": "20221117120806",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "enfermero",
+  "fields": [
+    {
+      "fieldName": "nombre",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "matricula",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Enfermero",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "reporte",
+      "otherEntityRelationshipName": "enfermero",
+      "relationshipName": "reporte",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

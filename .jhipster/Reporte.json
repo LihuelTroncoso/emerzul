@@ -6,23 +6,18 @@
   "entityTableName": "reporte",
   "fields": [
     {
-      "fieldName": "horaInicio",
-      "fieldType": "Instant",
-      "fieldValidateRules": ["required"]
-    },
-    {
-      "fieldName": "horaFinal",
-      "fieldType": "Instant",
-      "fieldValidateRules": ["required"]
-    },
-    {
-      "fieldName": "tipo",
+      "fieldName": "area",
       "fieldType": "String",
       "fieldValidateRules": ["required"]
     },
     {
-      "fieldName": "alerta",
-      "fieldType": "Boolean",
+      "fieldName": "origen",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "hora",
+      "fieldType": "Instant",
       "fieldValidateRules": ["required"]
     }
   ],
@@ -33,9 +28,15 @@
   "readOnly": false,
   "relationships": [
     {
-      "otherEntityName": "usuario",
+      "otherEntityName": "llamado",
+      "ownerSide": true,
+      "relationshipName": "llamado",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "enfermero",
       "otherEntityRelationshipName": "reporte",
-      "relationshipName": "usuario",
+      "relationshipName": "enfermero",
       "relationshipType": "one-to-many"
     }
   ],

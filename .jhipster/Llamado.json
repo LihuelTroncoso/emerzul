@@ -1,0 +1,43 @@
+{
+  "applications": "*",
+  "changelogDate": "20221117120807",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "llamado",
+  "fields": [
+    {
+      "fieldName": "horaInicio",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "horaFinal",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "tipo",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "atendido",
+      "fieldType": "Boolean",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Llamado",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "paciente",
+      "otherEntityRelationshipName": "llamado",
+      "relationshipName": "paciente",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "no"
+}

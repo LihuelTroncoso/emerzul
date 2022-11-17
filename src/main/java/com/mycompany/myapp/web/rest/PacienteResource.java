@@ -125,14 +125,26 @@ public class PacienteResource {
         Optional<Paciente> result = pacienteRepository
             .findById(paciente.getId())
             .map(existingPaciente -> {
+                if (paciente.getNombre() != null) {
+                    existingPaciente.setNombre(paciente.getNombre());
+                }
+                if (paciente.getDni() != null) {
+                    existingPaciente.setDni(paciente.getDni());
+                }
+                if (paciente.getSexo() != null) {
+                    existingPaciente.setSexo(paciente.getSexo());
+                }
+                if (paciente.getEdad() != null) {
+                    existingPaciente.setEdad(paciente.getEdad());
+                }
                 if (paciente.getIntervenciones() != null) {
                     existingPaciente.setIntervenciones(paciente.getIntervenciones());
                 }
                 if (paciente.getAntecedentesFamiliares() != null) {
                     existingPaciente.setAntecedentesFamiliares(paciente.getAntecedentesFamiliares());
                 }
-                if (paciente.getEstadoGeneral() != null) {
-                    existingPaciente.setEstadoGeneral(paciente.getEstadoGeneral());
+                if (paciente.getEstado() != null) {
+                    existingPaciente.setEstado(paciente.getEstado());
                 }
                 if (paciente.getEnfermedades() != null) {
                     existingPaciente.setEnfermedades(paciente.getEnfermedades());

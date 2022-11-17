@@ -11,8 +11,8 @@
       "fieldValidateRules": ["required"]
     },
     {
-      "fieldName": "urgencia",
-      "fieldType": "Long",
+      "fieldName": "tipo",
+      "fieldType": "String",
       "fieldValidateRules": ["required"]
     },
     {

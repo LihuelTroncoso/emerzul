@@ -29,6 +29,22 @@ export const PacienteDetail = () => {
           </dt>
           <dd>{pacienteEntity.id}</dd>
           <dt>
+            <span id="nombre">Nombre</span>
+          </dt>
+          <dd>{pacienteEntity.nombre}</dd>
+          <dt>
+            <span id="dni">Dni</span>
+          </dt>
+          <dd>{pacienteEntity.dni}</dd>
+          <dt>
+            <span id="sexo">Sexo</span>
+          </dt>
+          <dd>{pacienteEntity.sexo}</dd>
+          <dt>
+            <span id="edad">Edad</span>
+          </dt>
+          <dd>{pacienteEntity.edad}</dd>
+          <dt>
             <span id="intervenciones">Intervenciones</span>
           </dt>
           <dd>{pacienteEntity.intervenciones}</dd>
@@ -37,9 +53,9 @@ export const PacienteDetail = () => {
           </dt>
           <dd>{pacienteEntity.antecedentesFamiliares}</dd>
           <dt>
-            <span id="estadoGeneral">Estado General</span>
+            <span id="estado">Estado</span>
           </dt>
-          <dd>{pacienteEntity.estadoGeneral}</dd>
+          <dd>{pacienteEntity.estado}</dd>
           <dt>
             <span id="enfermedades">Enfermedades</span>
           </dt>
@@ -52,8 +68,10 @@ export const PacienteDetail = () => {
             <span id="tipoSangre">Tipo Sangre</span>
           </dt>
           <dd>{pacienteEntity.tipoSangre}</dd>
-          <dt>Usuario</dt>
-          <dd>{pacienteEntity.usuario ? pacienteEntity.usuario.id : ''}</dd>
+          <dt>Habitacion</dt>
+          <dd>{pacienteEntity.habitacion ? pacienteEntity.habitacion.id : ''}</dd>
+          <dt>Llamado</dt>
+          <dd>{pacienteEntity.llamado ? pacienteEntity.llamado.id : ''}</dd>
         </dl>
         <Button tag={Link} to="/paciente" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" /> <span className="d-none d-md-inline">Volver</span>

@@ -23,6 +23,22 @@ public class Paciente implements Serializable {
     @Column(name = "id")
     private Long id;
 
+    @NotNull
+    @Column(name = "nombre", nullable = false)
+    private String nombre;
+
+    @NotNull
+    @Column(name = "dni", nullable = false)
+    private Long dni;
+
+    @NotNull
+    @Column(name = "sexo", nullable = false)
+    private String sexo;
+
+    @NotNull
+    @Column(name = "edad", nullable = false)
+    private Long edad;
+
     @Column(name = "intervenciones")
     private String intervenciones;
 
@@ -30,8 +46,8 @@ public class Paciente implements Serializable {
     private String antecedentesFamiliares;
 
     @NotNull
-    @Column(name = "estado_general", nullable = false)
-    private String estadoGeneral;
+    @Column(name = "estado", nullable = false)
+    private String estado;
 
     @Column(name = "enfermedades")
     private String enfermedades;
@@ -39,13 +55,17 @@ public class Paciente implements Serializable {
     @Column(name = "discapacidades")
     private String discapacidades;
 
-    @Column(name = "tipo_sangre")
+    @NotNull
+    @Column(name = "tipo_sangre", nullable = false)
     private String tipoSangre;
 
-    @JsonIgnoreProperties(value = { "zona", "reporte" }, allowSetters = true)
     @OneToOne
     @JoinColumn(unique = true)
-    private Usuario usuario;
+    private Habitacion habitacion;
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = { "pacientes" }, allowSetters = true)
+    private Llamado llamado;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -60,6 +80,58 @@ public class Paciente implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getNombre() {
+        return this.nombre;
+    }
+
+    public Paciente nombre(String nombre) {
+        this.setNombre(nombre);
+        return this;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public Long getDni() {
+        return this.dni;
+    }
+
+    public Paciente dni(Long dni) {
+        this.setDni(dni);
+        return this;
+    }
+
+    public void setDni(Long dni) {
+        this.dni = dni;
+    }
+
+    public String getSexo() {
+        return this.sexo;
+    }
+
+    public Paciente sexo(String sexo) {
+        this.setSexo(sexo);
+        return this;
+    }
+
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
+    }
+
+    public Long getEdad() {
+        return this.edad;
+    }
+
+    public Paciente edad(Long edad) {
+        this.setEdad(edad);
+        return this;
+    }
+
+    public void setEdad(Long edad) {
+        this.edad = edad;
     }
 
     public String getIntervenciones() {
@@ -88,17 +160,17 @@ public class Paciente implements Serializable {
         this.antecedentesFamiliares = antecedentesFamiliares;
     }
 
-    public String getEstadoGeneral() {
-        return this.estadoGeneral;
+    public String getEstado() {
+        return this.estado;
     }
 
-    public Paciente estadoGeneral(String estadoGeneral) {
-        this.setEstadoGeneral(estadoGeneral);
+    public Paciente estado(String estado) {
+        this.setEstado(estado);
         return this;
     }
 
-    public void setEstadoGeneral(String estadoGeneral) {
-        this.estadoGeneral = estadoGeneral;
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
     public String getEnfermedades() {
@@ -140,16 +212,29 @@ public class Paciente implements Serializable {
         this.tipoSangre = tipoSangre;
     }
 
-    public Usuario getUsuario() {
-        return this.usuario;
+    public Habitacion getHabitacion() {
+        return this.habitacion;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setHabitacion(Habitacion habitacion) {
+        this.habitacion = habitacion;
     }
 
-    public Paciente usuario(Usuario usuario) {
-        this.setUsuario(usuario);
+    public Paciente habitacion(Habitacion habitacion) {
+        this.setHabitacion(habitacion);
+        return this;
+    }
+
+    public Llamado getLlamado() {
+        return this.llamado;
+    }
+
+    public void setLlamado(Llamado llamado) {
+        this.llamado = llamado;
+    }
+
+    public Paciente llamado(Llamado llamado) {
+        this.setLlamado(llamado);
         return this;
     }
 
@@ -177,9 +262,13 @@ public class Paciente implements Serializable {
     public String toString() {
         return "Paciente{" +
             "id=" + getId() +
+            ", nombre='" + getNombre() + "'" +
+            ", dni=" + getDni() +
+            ", sexo='" + getSexo() + "'" +
+            ", edad=" + getEdad() +
             ", intervenciones='" + getIntervenciones() + "'" +
             ", antecedentesFamiliares='" + getAntecedentesFamiliares() + "'" +
-            ", estadoGeneral='" + getEstadoGeneral() + "'" +
+            ", estado='" + getEstado() + "'" +
             ", enfermedades='" + getEnfermedades() + "'" +
             ", discapacidades='" + getDiscapacidades() + "'" +
             ", tipoSangre='" + getTipoSangre() + "'" +

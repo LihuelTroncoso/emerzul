@@ -55,7 +55,7 @@ public class Usuario implements Serializable {
     private Habitacion zona;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "usuarios" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "llamado", "enfermeros" }, allowSetters = true)
     private Reporte reporte;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

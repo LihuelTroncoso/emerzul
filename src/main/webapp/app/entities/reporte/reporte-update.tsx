@@ -8,6 +8,8 @@ import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateT
 import { mapIdList } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
+import { ILlamado } from 'app/shared/model/llamado.model';
+import { getEntities as getLlamados } from 'app/entities/llamado/llamado.reducer';
 import { IReporte } from 'app/shared/model/reporte.model';
 import { getEntity, updateEntity, createEntity, reset } from './reporte.reducer';
 
@@ -19,6 +21,7 @@ export const ReporteUpdate = () => {
   const { id } = useParams<'id'>();
   const isNew = id === undefined;
 
+  const llamados = useAppSelector(state => state.llamado.entities);
   const reporteEntity = useAppSelector(state => state.reporte.entity);
   const loading = useAppSelector(state => state.reporte.loading);
   const updating = useAppSelector(state => state.reporte.updating);
@@ -34,6 +37,8 @@ export const ReporteUpdate = () => {
     } else {
       dispatch(getEntity(id));
     }
+
+    dispatch(getLlamados({}));
   }, []);
 
   useEffect(() => {
@@ -43,12 +48,12 @@ export const ReporteUpdate = () => {
   }, [updateSuccess]);
 
   const saveEntity = values => {
-    values.horaInicio = convertDateTimeToServer(values.horaInicio);
-    values.horaFinal = convertDateTimeToServer(values.horaFinal);
+    values.hora = convertDateTimeToServer(values.hora);
 
     const entity = {
       ...reporteEntity,
       ...values,
+      llamado: llamados.find(it => it.id.toString() === values.llamado.toString()),
     };
 
     if (isNew) {
@@ -61,13 +66,12 @@ export const ReporteUpdate = () => {
   const defaultValues = () =>
     isNew
       ? {
-          horaInicio: displayDefaultDateTime(),
-          horaFinal: displayDefaultDateTime(),
+          hora: displayDefaultDateTime(),
         }
       : {
           ...reporteEntity,
-          horaInicio: convertDateTimeFromServer(reporteEntity.horaInicio),
-          horaFinal: convertDateTimeFromServer(reporteEntity.horaFinal),
+          hora: convertDateTimeFromServer(reporteEntity.hora),
+          llamado: reporteEntity?.llamado?.id,
         };
 
   return (
@@ -87,38 +91,46 @@ export const ReporteUpdate = () => {
             <ValidatedForm defaultValues={defaultValues()} onSubmit={saveEntity}>
               {!isNew ? <ValidatedField name="id" required readOnly id="reporte-id" label="ID" validate={{ required: true }} /> : null}
               <ValidatedField
-                label="Hora Inicio"
-                id="reporte-horaInicio"
-                name="horaInicio"
-                data-cy="horaInicio"
-                type="datetime-local"
-                placeholder="YYYY-MM-DD HH:mm"
-                validate={{
-                  required: { value: true, message: 'Este campo es obligatorio.' },
-                }}
-              />
-              <ValidatedField
-                label="Hora Final"
-                id="reporte-horaFinal"
-                name="horaFinal"
-                data-cy="horaFinal"
-                type="datetime-local"
-                placeholder="YYYY-MM-DD HH:mm"
-                validate={{
-                  required: { value: true, message: 'Este campo es obligatorio.' },
-                }}
-              />
-              <ValidatedField
-                label="Tipo"
-                id="reporte-tipo"
-                name="tipo"
-                data-cy="tipo"
+                label="Area"
+                id="reporte-area"
+                name="area"
+                data-cy="area"
                 type="text"
                 validate={{
                   required: { value: true, message: 'Este campo es obligatorio.' },
                 }}
               />
-              <ValidatedField label="Alerta" id="reporte-alerta" name="alerta" data-cy="alerta" check type="checkbox" />
+              <ValidatedField
+                label="Origen"
+                id="reporte-origen"
+                name="origen"
+                data-cy="origen"
+                type="text"
+                validate={{
+                  required: { value: true, message: 'Este campo es obligatorio.' },
+                }}
+              />
+              <ValidatedField
+                label="Hora"
+                id="reporte-hora"
+                name="hora"
+                data-cy="hora"
+                type="datetime-local"
+                placeholder="YYYY-MM-DD HH:mm"
+                validate={{
+                  required: { value: true, message: 'Este campo es obligatorio.' },
+                }}
+              />
+              <ValidatedField id="reporte-llamado" name="llamado" data-cy="llamado" label="Llamado" type="select">
+                <option value="" key="0" />
+                {llamados
+                  ? llamados.map(otherEntity => (
+                      <option value={otherEntity.id} key={otherEntity.id}>
+                        {otherEntity.id}
+                      </option>
+                    ))
+                  : null}
+              </ValidatedField>
               <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/reporte" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;

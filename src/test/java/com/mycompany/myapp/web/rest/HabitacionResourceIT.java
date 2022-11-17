@@ -32,8 +32,8 @@ class HabitacionResourceIT {
     private static final String DEFAULT_NOMBRE = "AAAAAAAAAA";
     private static final String UPDATED_NOMBRE = "BBBBBBBBBB";
 
-    private static final Long DEFAULT_URGENCIA = 1L;
-    private static final Long UPDATED_URGENCIA = 2L;
+    private static final String DEFAULT_TIPO = "AAAAAAAAAA";
+    private static final String UPDATED_TIPO = "BBBBBBBBBB";
 
     private static final String DEFAULT_ZONA = "AAAAAAAAAA";
     private static final String UPDATED_ZONA = "BBBBBBBBBB";
@@ -62,7 +62,7 @@ class HabitacionResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Habitacion createEntity(EntityManager em) {
-        Habitacion habitacion = new Habitacion().nombre(DEFAULT_NOMBRE).urgencia(DEFAULT_URGENCIA).zona(DEFAULT_ZONA);
+        Habitacion habitacion = new Habitacion().nombre(DEFAULT_NOMBRE).tipo(DEFAULT_TIPO).zona(DEFAULT_ZONA);
         return habitacion;
     }
 
@@ -73,7 +73,7 @@ class HabitacionResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Habitacion createUpdatedEntity(EntityManager em) {
-        Habitacion habitacion = new Habitacion().nombre(UPDATED_NOMBRE).urgencia(UPDATED_URGENCIA).zona(UPDATED_ZONA);
+        Habitacion habitacion = new Habitacion().nombre(UPDATED_NOMBRE).tipo(UPDATED_TIPO).zona(UPDATED_ZONA);
         return habitacion;
     }
 
@@ -96,7 +96,7 @@ class HabitacionResourceIT {
         assertThat(habitacionList).hasSize(databaseSizeBeforeCreate + 1);
         Habitacion testHabitacion = habitacionList.get(habitacionList.size() - 1);
         assertThat(testHabitacion.getNombre()).isEqualTo(DEFAULT_NOMBRE);
-        assertThat(testHabitacion.getUrgencia()).isEqualTo(DEFAULT_URGENCIA);
+        assertThat(testHabitacion.getTipo()).isEqualTo(DEFAULT_TIPO);
         assertThat(testHabitacion.getZona()).isEqualTo(DEFAULT_ZONA);
     }
 
@@ -137,10 +137,10 @@ class HabitacionResourceIT {
 
     @Test
     @Transactional
-    void checkUrgenciaIsRequired() throws Exception {
+    void checkTipoIsRequired() throws Exception {
         int databaseSizeBeforeTest = habitacionRepository.findAll().size();
         // set the field null
-        habitacion.setUrgencia(null);
+        habitacion.setTipo(null);
 
         // Create the Habitacion, which fails.
 
@@ -182,7 +182,7 @@ class HabitacionResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(habitacion.getId().intValue())))
             .andExpect(jsonPath("$.[*].nombre").value(hasItem(DEFAULT_NOMBRE)))
-            .andExpect(jsonPath("$.[*].urgencia").value(hasItem(DEFAULT_URGENCIA.intValue())))
+            .andExpect(jsonPath("$.[*].tipo").value(hasItem(DEFAULT_TIPO)))
             .andExpect(jsonPath("$.[*].zona").value(hasItem(DEFAULT_ZONA)));
     }
 
@@ -199,7 +199,7 @@ class HabitacionResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(habitacion.getId().intValue()))
             .andExpect(jsonPath("$.nombre").value(DEFAULT_NOMBRE))
-            .andExpect(jsonPath("$.urgencia").value(DEFAULT_URGENCIA.intValue()))
+            .andExpect(jsonPath("$.tipo").value(DEFAULT_TIPO))
             .andExpect(jsonPath("$.zona").value(DEFAULT_ZONA));
     }
 
@@ -222,7 +222,7 @@ class HabitacionResourceIT {
         Habitacion updatedHabitacion = habitacionRepository.findById(habitacion.getId()).get();
         // Disconnect from session so that the updates on updatedHabitacion are not directly saved in db
         em.detach(updatedHabitacion);
-        updatedHabitacion.nombre(UPDATED_NOMBRE).urgencia(UPDATED_URGENCIA).zona(UPDATED_ZONA);
+        updatedHabitacion.nombre(UPDATED_NOMBRE).tipo(UPDATED_TIPO).zona(UPDATED_ZONA);
 
         restHabitacionMockMvc
             .perform(
@@ -237,7 +237,7 @@ class HabitacionResourceIT {
         assertThat(habitacionList).hasSize(databaseSizeBeforeUpdate);
         Habitacion testHabitacion = habitacionList.get(habitacionList.size() - 1);
         assertThat(testHabitacion.getNombre()).isEqualTo(UPDATED_NOMBRE);
-        assertThat(testHabitacion.getUrgencia()).isEqualTo(UPDATED_URGENCIA);
+        assertThat(testHabitacion.getTipo()).isEqualTo(UPDATED_TIPO);
         assertThat(testHabitacion.getZona()).isEqualTo(UPDATED_ZONA);
     }
 
@@ -309,7 +309,7 @@ class HabitacionResourceIT {
         Habitacion partialUpdatedHabitacion = new Habitacion();
         partialUpdatedHabitacion.setId(habitacion.getId());
 
-        partialUpdatedHabitacion.nombre(UPDATED_NOMBRE).urgencia(UPDATED_URGENCIA);
+        partialUpdatedHabitacion.nombre(UPDATED_NOMBRE).tipo(UPDATED_TIPO);
 
         restHabitacionMockMvc
             .perform(
@@ -324,7 +324,7 @@ class HabitacionResourceIT {
         assertThat(habitacionList).hasSize(databaseSizeBeforeUpdate);
         Habitacion testHabitacion = habitacionList.get(habitacionList.size() - 1);
         assertThat(testHabitacion.getNombre()).isEqualTo(UPDATED_NOMBRE);
-        assertThat(testHabitacion.getUrgencia()).isEqualTo(UPDATED_URGENCIA);
+        assertThat(testHabitacion.getTipo()).isEqualTo(UPDATED_TIPO);
         assertThat(testHabitacion.getZona()).isEqualTo(DEFAULT_ZONA);
     }
 
@@ -340,7 +340,7 @@ class HabitacionResourceIT {
         Habitacion partialUpdatedHabitacion = new Habitacion();
         partialUpdatedHabitacion.setId(habitacion.getId());
 
-        partialUpdatedHabitacion.nombre(UPDATED_NOMBRE).urgencia(UPDATED_URGENCIA).zona(UPDATED_ZONA);
+        partialUpdatedHabitacion.nombre(UPDATED_NOMBRE).tipo(UPDATED_TIPO).zona(UPDATED_ZONA);
 
         restHabitacionMockMvc
             .perform(
@@ -355,7 +355,7 @@ class HabitacionResourceIT {
         assertThat(habitacionList).hasSize(databaseSizeBeforeUpdate);
         Habitacion testHabitacion = habitacionList.get(habitacionList.size() - 1);
         assertThat(testHabitacion.getNombre()).isEqualTo(UPDATED_NOMBRE);
-        assertThat(testHabitacion.getUrgencia()).isEqualTo(UPDATED_URGENCIA);
+        assertThat(testHabitacion.getTipo()).isEqualTo(UPDATED_TIPO);
         assertThat(testHabitacion.getZona()).isEqualTo(UPDATED_ZONA);
     }
 

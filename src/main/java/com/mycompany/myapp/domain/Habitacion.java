@@ -27,8 +27,8 @@ public class Habitacion implements Serializable {
     private String nombre;
 
     @NotNull
-    @Column(name = "urgencia", nullable = false)
-    private Long urgencia;
+    @Column(name = "tipo", nullable = false)
+    private String tipo;
 
     @NotNull
     @Column(name = "zona", nullable = false)
@@ -62,17 +62,17 @@ public class Habitacion implements Serializable {
         this.nombre = nombre;
     }
 
-    public Long getUrgencia() {
-        return this.urgencia;
+    public String getTipo() {
+        return this.tipo;
     }
 
-    public Habitacion urgencia(Long urgencia) {
-        this.setUrgencia(urgencia);
+    public Habitacion tipo(String tipo) {
+        this.setTipo(tipo);
         return this;
     }
 
-    public void setUrgencia(Long urgencia) {
-        this.urgencia = urgencia;
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
     public String getZona() {
@@ -113,7 +113,7 @@ public class Habitacion implements Serializable {
         return "Habitacion{" +
             "id=" + getId() +
             ", nombre='" + getNombre() + "'" +
-            ", urgencia=" + getUrgencia() +
+            ", tipo='" + getTipo() + "'" +
             ", zona='" + getZona() + "'" +
             "}";
     }

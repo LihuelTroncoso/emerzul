@@ -31,17 +31,14 @@ import org.springframework.transaction.annotation.Transactional;
 @WithMockUser
 class ReporteResourceIT {
 
-    private static final Instant DEFAULT_HORA_INICIO = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_HORA_INICIO = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final String DEFAULT_AREA = "AAAAAAAAAA";
+    private static final String UPDATED_AREA = "BBBBBBBBBB";
 
-    private static final Instant DEFAULT_HORA_FINAL = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_HORA_FINAL = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final String DEFAULT_ORIGEN = "AAAAAAAAAA";
+    private static final String UPDATED_ORIGEN = "BBBBBBBBBB";
 
-    private static final String DEFAULT_TIPO = "AAAAAAAAAA";
-    private static final String UPDATED_TIPO = "BBBBBBBBBB";
-
-    private static final Boolean DEFAULT_ALERTA = false;
-    private static final Boolean UPDATED_ALERTA = true;
+    private static final Instant DEFAULT_HORA = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_HORA = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     private static final String ENTITY_API_URL = "/api/reportes";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -67,11 +64,7 @@ class ReporteResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Reporte createEntity(EntityManager em) {
-        Reporte reporte = new Reporte()
-            .horaInicio(DEFAULT_HORA_INICIO)
-            .horaFinal(DEFAULT_HORA_FINAL)
-            .tipo(DEFAULT_TIPO)
-            .alerta(DEFAULT_ALERTA);
+        Reporte reporte = new Reporte().area(DEFAULT_AREA).origen(DEFAULT_ORIGEN).hora(DEFAULT_HORA);
         return reporte;
     }
 
@@ -82,11 +75,7 @@ class ReporteResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Reporte createUpdatedEntity(EntityManager em) {
-        Reporte reporte = new Reporte()
-            .horaInicio(UPDATED_HORA_INICIO)
-            .horaFinal(UPDATED_HORA_FINAL)
-            .tipo(UPDATED_TIPO)
-            .alerta(UPDATED_ALERTA);
+        Reporte reporte = new Reporte().area(UPDATED_AREA).origen(UPDATED_ORIGEN).hora(UPDATED_HORA);
         return reporte;
     }
 
@@ -108,10 +97,9 @@ class ReporteResourceIT {
         List<Reporte> reporteList = reporteRepository.findAll();
         assertThat(reporteList).hasSize(databaseSizeBeforeCreate + 1);
         Reporte testReporte = reporteList.get(reporteList.size() - 1);
-        assertThat(testReporte.getHoraInicio()).isEqualTo(DEFAULT_HORA_INICIO);
-        assertThat(testReporte.getHoraFinal()).isEqualTo(DEFAULT_HORA_FINAL);
-        assertThat(testReporte.getTipo()).isEqualTo(DEFAULT_TIPO);
-        assertThat(testReporte.getAlerta()).isEqualTo(DEFAULT_ALERTA);
+        assertThat(testReporte.getArea()).isEqualTo(DEFAULT_AREA);
+        assertThat(testReporte.getOrigen()).isEqualTo(DEFAULT_ORIGEN);
+        assertThat(testReporte.getHora()).isEqualTo(DEFAULT_HORA);
     }
 
     @Test
@@ -134,10 +122,10 @@ class ReporteResourceIT {
 
     @Test
     @Transactional
-    void checkHoraInicioIsRequired() throws Exception {
+    void checkAreaIsRequired() throws Exception {
         int databaseSizeBeforeTest = reporteRepository.findAll().size();
         // set the field null
-        reporte.setHoraInicio(null);
+        reporte.setArea(null);
 
         // Create the Reporte, which fails.
 
@@ -151,10 +139,10 @@ class ReporteResourceIT {
 
     @Test
     @Transactional
-    void checkHoraFinalIsRequired() throws Exception {
+    void checkOrigenIsRequired() throws Exception {
         int databaseSizeBeforeTest = reporteRepository.findAll().size();
         // set the field null
-        reporte.setHoraFinal(null);
+        reporte.setOrigen(null);
 
         // Create the Reporte, which fails.
 
@@ -168,27 +156,10 @@ class ReporteResourceIT {
 
     @Test
     @Transactional
-    void checkTipoIsRequired() throws Exception {
+    void checkHoraIsRequired() throws Exception {
         int databaseSizeBeforeTest = reporteRepository.findAll().size();
         // set the field null
-        reporte.setTipo(null);
-
-        // Create the Reporte, which fails.
-
-        restReporteMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(reporte)))
-            .andExpect(status().isBadRequest());
-
-        List<Reporte> reporteList = reporteRepository.findAll();
-        assertThat(reporteList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    void checkAlertaIsRequired() throws Exception {
-        int databaseSizeBeforeTest = reporteRepository.findAll().size();
-        // set the field null
-        reporte.setAlerta(null);
+        reporte.setHora(null);
 
         // Create the Reporte, which fails.
 
@@ -212,10 +183,9 @@ class ReporteResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(reporte.getId().intValue())))
-            .andExpect(jsonPath("$.[*].horaInicio").value(hasItem(DEFAULT_HORA_INICIO.toString())))
-            .andExpect(jsonPath("$.[*].horaFinal").value(hasItem(DEFAULT_HORA_FINAL.toString())))
-            .andExpect(jsonPath("$.[*].tipo").value(hasItem(DEFAULT_TIPO)))
-            .andExpect(jsonPath("$.[*].alerta").value(hasItem(DEFAULT_ALERTA.booleanValue())));
+            .andExpect(jsonPath("$.[*].area").value(hasItem(DEFAULT_AREA)))
+            .andExpect(jsonPath("$.[*].origen").value(hasItem(DEFAULT_ORIGEN)))
+            .andExpect(jsonPath("$.[*].hora").value(hasItem(DEFAULT_HORA.toString())));
     }
 
     @Test
@@ -230,10 +200,9 @@ class ReporteResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(reporte.getId().intValue()))
-            .andExpect(jsonPath("$.horaInicio").value(DEFAULT_HORA_INICIO.toString()))
-            .andExpect(jsonPath("$.horaFinal").value(DEFAULT_HORA_FINAL.toString()))
-            .andExpect(jsonPath("$.tipo").value(DEFAULT_TIPO))
-            .andExpect(jsonPath("$.alerta").value(DEFAULT_ALERTA.booleanValue()));
+            .andExpect(jsonPath("$.area").value(DEFAULT_AREA))
+            .andExpect(jsonPath("$.origen").value(DEFAULT_ORIGEN))
+            .andExpect(jsonPath("$.hora").value(DEFAULT_HORA.toString()));
     }
 
     @Test
@@ -255,7 +224,7 @@ class ReporteResourceIT {
         Reporte updatedReporte = reporteRepository.findById(reporte.getId()).get();
         // Disconnect from session so that the updates on updatedReporte are not directly saved in db
         em.detach(updatedReporte);
-        updatedReporte.horaInicio(UPDATED_HORA_INICIO).horaFinal(UPDATED_HORA_FINAL).tipo(UPDATED_TIPO).alerta(UPDATED_ALERTA);
+        updatedReporte.area(UPDATED_AREA).origen(UPDATED_ORIGEN).hora(UPDATED_HORA);
 
         restReporteMockMvc
             .perform(
@@ -269,10 +238,9 @@ class ReporteResourceIT {
         List<Reporte> reporteList = reporteRepository.findAll();
         assertThat(reporteList).hasSize(databaseSizeBeforeUpdate);
         Reporte testReporte = reporteList.get(reporteList.size() - 1);
-        assertThat(testReporte.getHoraInicio()).isEqualTo(UPDATED_HORA_INICIO);
-        assertThat(testReporte.getHoraFinal()).isEqualTo(UPDATED_HORA_FINAL);
-        assertThat(testReporte.getTipo()).isEqualTo(UPDATED_TIPO);
-        assertThat(testReporte.getAlerta()).isEqualTo(UPDATED_ALERTA);
+        assertThat(testReporte.getArea()).isEqualTo(UPDATED_AREA);
+        assertThat(testReporte.getOrigen()).isEqualTo(UPDATED_ORIGEN);
+        assertThat(testReporte.getHora()).isEqualTo(UPDATED_HORA);
     }
 
     @Test
@@ -343,7 +311,7 @@ class ReporteResourceIT {
         Reporte partialUpdatedReporte = new Reporte();
         partialUpdatedReporte.setId(reporte.getId());
 
-        partialUpdatedReporte.horaFinal(UPDATED_HORA_FINAL);
+        partialUpdatedReporte.origen(UPDATED_ORIGEN);
 
         restReporteMockMvc
             .perform(
@@ -357,10 +325,9 @@ class ReporteResourceIT {
         List<Reporte> reporteList = reporteRepository.findAll();
         assertThat(reporteList).hasSize(databaseSizeBeforeUpdate);
         Reporte testReporte = reporteList.get(reporteList.size() - 1);
-        assertThat(testReporte.getHoraInicio()).isEqualTo(DEFAULT_HORA_INICIO);
-        assertThat(testReporte.getHoraFinal()).isEqualTo(UPDATED_HORA_FINAL);
-        assertThat(testReporte.getTipo()).isEqualTo(DEFAULT_TIPO);
-        assertThat(testReporte.getAlerta()).isEqualTo(DEFAULT_ALERTA);
+        assertThat(testReporte.getArea()).isEqualTo(DEFAULT_AREA);
+        assertThat(testReporte.getOrigen()).isEqualTo(UPDATED_ORIGEN);
+        assertThat(testReporte.getHora()).isEqualTo(DEFAULT_HORA);
     }
 
     @Test
@@ -375,7 +342,7 @@ class ReporteResourceIT {
         Reporte partialUpdatedReporte = new Reporte();
         partialUpdatedReporte.setId(reporte.getId());
 
-        partialUpdatedReporte.horaInicio(UPDATED_HORA_INICIO).horaFinal(UPDATED_HORA_FINAL).tipo(UPDATED_TIPO).alerta(UPDATED_ALERTA);
+        partialUpdatedReporte.area(UPDATED_AREA).origen(UPDATED_ORIGEN).hora(UPDATED_HORA);
 
         restReporteMockMvc
             .perform(
@@ -389,10 +356,9 @@ class ReporteResourceIT {
         List<Reporte> reporteList = reporteRepository.findAll();
         assertThat(reporteList).hasSize(databaseSizeBeforeUpdate);
         Reporte testReporte = reporteList.get(reporteList.size() - 1);
-        assertThat(testReporte.getHoraInicio()).isEqualTo(UPDATED_HORA_INICIO);
-        assertThat(testReporte.getHoraFinal()).isEqualTo(UPDATED_HORA_FINAL);
-        assertThat(testReporte.getTipo()).isEqualTo(UPDATED_TIPO);
-        assertThat(testReporte.getAlerta()).isEqualTo(UPDATED_ALERTA);
+        assertThat(testReporte.getArea()).isEqualTo(UPDATED_AREA);
+        assertThat(testReporte.getOrigen()).isEqualTo(UPDATED_ORIGEN);
+        assertThat(testReporte.getHora()).isEqualTo(UPDATED_HORA);
     }
 
     @Test

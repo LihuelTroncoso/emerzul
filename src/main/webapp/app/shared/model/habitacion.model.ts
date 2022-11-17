@@ -1,7 +1,7 @@
 export interface IHabitacion {
   id?: number;
   nombre?: string;
-  urgencia?: number;
+  tipo?: string;
   zona?: string;
 }
 

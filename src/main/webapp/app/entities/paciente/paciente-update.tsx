@@ -8,8 +8,10 @@ import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateT
 import { mapIdList } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
-import { IUsuario } from 'app/shared/model/usuario.model';
-import { getEntities as getUsuarios } from 'app/entities/usuario/usuario.reducer';
+import { IHabitacion } from 'app/shared/model/habitacion.model';
+import { getEntities as getHabitacions } from 'app/entities/habitacion/habitacion.reducer';
+import { ILlamado } from 'app/shared/model/llamado.model';
+import { getEntities as getLlamados } from 'app/entities/llamado/llamado.reducer';
 import { IPaciente } from 'app/shared/model/paciente.model';
 import { getEntity, updateEntity, createEntity, reset } from './paciente.reducer';
 
@@ -21,7 +23,8 @@ export const PacienteUpdate = () => {
   const { id } = useParams<'id'>();
   const isNew = id === undefined;
 
-  const usuarios = useAppSelector(state => state.usuario.entities);
+  const habitacions = useAppSelector(state => state.habitacion.entities);
+  const llamados = useAppSelector(state => state.llamado.entities);
   const pacienteEntity = useAppSelector(state => state.paciente.entity);
   const loading = useAppSelector(state => state.paciente.loading);
   const updating = useAppSelector(state => state.paciente.updating);
@@ -38,7 +41,8 @@ export const PacienteUpdate = () => {
       dispatch(getEntity(id));
     }
 
-    dispatch(getUsuarios({}));
+    dispatch(getHabitacions({}));
+    dispatch(getLlamados({}));
   }, []);
 
   useEffect(() => {
@@ -51,7 +55,8 @@ export const PacienteUpdate = () => {
     const entity = {
       ...pacienteEntity,
       ...values,
-      usuario: usuarios.find(it => it.id.toString() === values.usuario.toString()),
+      habitacion: habitacions.find(it => it.id.toString() === values.habitacion.toString()),
+      llamado: llamados.find(it => it.id.toString() === values.llamado.toString()),
     };
 
     if (isNew) {
@@ -66,7 +71,8 @@ export const PacienteUpdate = () => {
       ? {}
       : {
           ...pacienteEntity,
-          usuario: pacienteEntity?.usuario?.id,
+          habitacion: pacienteEntity?.habitacion?.id,
+          llamado: pacienteEntity?.llamado?.id,
         };
 
   return (
@@ -86,6 +92,48 @@ export const PacienteUpdate = () => {
             <ValidatedForm defaultValues={defaultValues()} onSubmit={saveEntity}>
               {!isNew ? <ValidatedField name="id" required readOnly id="paciente-id" label="ID" validate={{ required: true }} /> : null}
               <ValidatedField
+                label="Nombre"
+                id="paciente-nombre"
+                name="nombre"
+                data-cy="nombre"
+                type="text"
+                validate={{
+                  required: { value: true, message: 'Este campo es obligatorio.' },
+                }}
+              />
+              <ValidatedField
+                label="Dni"
+                id="paciente-dni"
+                name="dni"
+                data-cy="dni"
+                type="text"
+                validate={{
+                  required: { value: true, message: 'Este campo es obligatorio.' },
+                  validate: v => isNumber(v) || 'Este campo debe ser un número.',
+                }}
+              />
+              <ValidatedField
+                label="Sexo"
+                id="paciente-sexo"
+                name="sexo"
+                data-cy="sexo"
+                type="text"
+                validate={{
+                  required: { value: true, message: 'Este campo es obligatorio.' },
+                }}
+              />
+              <ValidatedField
+                label="Edad"
+                id="paciente-edad"
+                name="edad"
+                data-cy="edad"
+                type="text"
+                validate={{
+                  required: { value: true, message: 'Este campo es obligatorio.' },
+                  validate: v => isNumber(v) || 'Este campo debe ser un número.',
+                }}
+              />
+              <ValidatedField
                 label="Intervenciones"
                 id="paciente-intervenciones"
                 name="intervenciones"
@@ -100,10 +148,10 @@ export const PacienteUpdate = () => {
                 type="text"
               />
               <ValidatedField
-                label="Estado General"
-                id="paciente-estadoGeneral"
-                name="estadoGeneral"
-                data-cy="estadoGeneral"
+                label="Estado"
+                id="paciente-estado"
+                name="estado"
+                data-cy="estado"
                 type="text"
                 validate={{
                   required: { value: true, message: 'Este campo es obligatorio.' },
@@ -117,11 +165,30 @@ export const PacienteUpdate = () => {
                 data-cy="discapacidades"
                 type="text"
               />
-              <ValidatedField label="Tipo Sangre" id="paciente-tipoSangre" name="tipoSangre" data-cy="tipoSangre" type="text" />
-              <ValidatedField id="paciente-usuario" name="usuario" data-cy="usuario" label="Usuario" type="select">
+              <ValidatedField
+                label="Tipo Sangre"
+                id="paciente-tipoSangre"
+                name="tipoSangre"
+                data-cy="tipoSangre"
+                type="text"
+                validate={{
+                  required: { value: true, message: 'Este campo es obligatorio.' },
+                }}
+              />
+              <ValidatedField id="paciente-habitacion" name="habitacion" data-cy="habitacion" label="Habitacion" type="select">
                 <option value="" key="0" />
-                {usuarios
-                  ? usuarios.map(otherEntity => (
+                {habitacions
+                  ? habitacions.map(otherEntity => (
+                      <option value={otherEntity.id} key={otherEntity.id}>
+                        {otherEntity.id}
+                      </option>
+                    ))
+                  : null}
+              </ValidatedField>
+              <ValidatedField id="paciente-llamado" name="llamado" data-cy="llamado" label="Llamado" type="select">
+                <option value="" key="0" />
+                {llamados
+                  ? llamados.map(otherEntity => (
                       <option value={otherEntity.id} key={otherEntity.id}>
                         {otherEntity.id}
                       </option>

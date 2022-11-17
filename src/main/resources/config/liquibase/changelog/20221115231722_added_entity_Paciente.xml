@@ -14,13 +14,25 @@
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
+            <column name="nombre" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="dni" type="bigint">
+                <constraints nullable="false" />
+            </column>
+            <column name="sexo" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="edad" type="bigint">
+                <constraints nullable="false" />
+            </column>
             <column name="intervenciones" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="antecedentes_familiares" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="estado_general" type="varchar(255)">
+            <column name="estado" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
             <column name="enfermedades" type="varchar(255)">
@@ -30,10 +42,13 @@
                 <constraints nullable="true" />
             </column>
             <column name="tipo_sangre" type="varchar(255)">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
-            <column name="usuario_id" type="bigint">
-                <constraints nullable="true" unique="true" uniqueConstraintName="ux_paciente__usuario_id" />
+            <column name="habitacion_id" type="bigint">
+                <constraints nullable="true" unique="true" uniqueConstraintName="ux_paciente__habitacion_id" />
+            </column>
+            <column name="llamado_id" type="bigint">
+                <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
@@ -56,9 +71,13 @@
                   tableName="paciente"
                   usePreparedStatements="true">
             <column name="id" type="numeric"/>
+            <column name="nombre" type="string"/>
+            <column name="dni" type="numeric"/>
+            <column name="sexo" type="string"/>
+            <column name="edad" type="numeric"/>
             <column name="intervenciones" type="string"/>
             <column name="antecedentes_familiares" type="string"/>
-            <column name="estado_general" type="string"/>
+            <column name="estado" type="string"/>
             <column name="enfermedades" type="string"/>
             <column name="discapacidades" type="string"/>
             <column name="tipo_sangre" type="string"/>

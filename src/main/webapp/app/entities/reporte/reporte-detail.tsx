@@ -29,21 +29,19 @@ export const ReporteDetail = () => {
           </dt>
           <dd>{reporteEntity.id}</dd>
           <dt>
-            <span id="horaInicio">Hora Inicio</span>
+            <span id="area">Area</span>
           </dt>
-          <dd>{reporteEntity.horaInicio ? <TextFormat value={reporteEntity.horaInicio} type="date" format={APP_DATE_FORMAT} /> : null}</dd>
+          <dd>{reporteEntity.area}</dd>
           <dt>
-            <span id="horaFinal">Hora Final</span>
+            <span id="origen">Origen</span>
           </dt>
-          <dd>{reporteEntity.horaFinal ? <TextFormat value={reporteEntity.horaFinal} type="date" format={APP_DATE_FORMAT} /> : null}</dd>
+          <dd>{reporteEntity.origen}</dd>
           <dt>
-            <span id="tipo">Tipo</span>
+            <span id="hora">Hora</span>
           </dt>
-          <dd>{reporteEntity.tipo}</dd>
-          <dt>
-            <span id="alerta">Alerta</span>
-          </dt>
-          <dd>{reporteEntity.alerta ? 'true' : 'false'}</dd>
+          <dd>{reporteEntity.hora ? <TextFormat value={reporteEntity.hora} type="date" format={APP_DATE_FORMAT} /> : null}</dd>
+          <dt>Llamado</dt>
+          <dd>{reporteEntity.llamado ? reporteEntity.llamado.id : ''}</dd>
         </dl>
         <Button tag={Link} to="/reporte" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" /> <span className="d-none d-md-inline">Volver</span>

@@ -47,13 +47,18 @@ export const Paciente = () => {
             <thead>
               <tr>
                 <th>ID</th>
+                <th>Nombre</th>
+                <th>Dni</th>
+                <th>Sexo</th>
+                <th>Edad</th>
                 <th>Intervenciones</th>
                 <th>Antecedentes Familiares</th>
-                <th>Estado General</th>
+                <th>Estado</th>
                 <th>Enfermedades</th>
                 <th>Discapacidades</th>
                 <th>Tipo Sangre</th>
-                <th>Usuario</th>
+                <th>Habitacion</th>
+                <th>Llamado</th>
                 <th />
               </tr>
             </thead>
@@ -65,13 +70,18 @@ export const Paciente = () => {
                       {paciente.id}
                     </Button>
                   </td>
+                  <td>{paciente.nombre}</td>
+                  <td>{paciente.dni}</td>
+                  <td>{paciente.sexo}</td>
+                  <td>{paciente.edad}</td>
                   <td>{paciente.intervenciones}</td>
                   <td>{paciente.antecedentesFamiliares}</td>
-                  <td>{paciente.estadoGeneral}</td>
+                  <td>{paciente.estado}</td>
                   <td>{paciente.enfermedades}</td>
                   <td>{paciente.discapacidades}</td>
                   <td>{paciente.tipoSangre}</td>
-                  <td>{paciente.usuario ? <Link to={`/usuario/${paciente.usuario.id}`}>{paciente.usuario.id}</Link> : ''}</td>
+                  <td>{paciente.habitacion ? <Link to={`/habitacion/${paciente.habitacion.id}`}>{paciente.habitacion.id}</Link> : ''}</td>
+                  <td>{paciente.llamado ? <Link to={`/llamado/${paciente.llamado.id}`}>{paciente.llamado.id}</Link> : ''}</td>
                   <td className="text-end">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`/paciente/${paciente.id}`} color="info" size="sm" data-cy="entityDetailsButton">

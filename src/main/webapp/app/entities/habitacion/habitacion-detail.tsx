@@ -33,9 +33,9 @@ export const HabitacionDetail = () => {
           </dt>
           <dd>{habitacionEntity.nombre}</dd>
           <dt>
-            <span id="urgencia">Urgencia</span>
+            <span id="tipo">Tipo</span>
           </dt>
-          <dd>{habitacionEntity.urgencia}</dd>
+          <dd>{habitacionEntity.tipo}</dd>
           <dt>
             <span id="zona">Zona</span>
           </dt>

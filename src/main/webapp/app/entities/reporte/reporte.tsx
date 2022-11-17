@@ -47,10 +47,10 @@ export const Reporte = () => {
             <thead>
               <tr>
                 <th>ID</th>
-                <th>Hora Inicio</th>
-                <th>Hora Final</th>
-                <th>Tipo</th>
-                <th>Alerta</th>
+                <th>Area</th>
+                <th>Origen</th>
+                <th>Hora</th>
+                <th>Llamado</th>
                 <th />
               </tr>
             </thead>
@@ -62,10 +62,10 @@ export const Reporte = () => {
                       {reporte.id}
                     </Button>
                   </td>
-                  <td>{reporte.horaInicio ? <TextFormat type="date" value={reporte.horaInicio} format={APP_DATE_FORMAT} /> : null}</td>
-                  <td>{reporte.horaFinal ? <TextFormat type="date" value={reporte.horaFinal} format={APP_DATE_FORMAT} /> : null}</td>
-                  <td>{reporte.tipo}</td>
-                  <td>{reporte.alerta ? 'true' : 'false'}</td>
+                  <td>{reporte.area}</td>
+                  <td>{reporte.origen}</td>
+                  <td>{reporte.hora ? <TextFormat type="date" value={reporte.hora} format={APP_DATE_FORMAT} /> : null}</td>
+                  <td>{reporte.llamado ? <Link to={`/llamado/${reporte.llamado.id}`}>{reporte.llamado.id}</Link> : ''}</td>
                   <td className="text-end">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`/reporte/${reporte.id}`} color="info" size="sm" data-cy="entityDetailsButton">

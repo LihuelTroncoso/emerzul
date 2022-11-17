@@ -29,14 +29,26 @@ import org.springframework.transaction.annotation.Transactional;
 @WithMockUser
 class PacienteResourceIT {
 
+    private static final String DEFAULT_NOMBRE = "AAAAAAAAAA";
+    private static final String UPDATED_NOMBRE = "BBBBBBBBBB";
+
+    private static final Long DEFAULT_DNI = 1L;
+    private static final Long UPDATED_DNI = 2L;
+
+    private static final String DEFAULT_SEXO = "AAAAAAAAAA";
+    private static final String UPDATED_SEXO = "BBBBBBBBBB";
+
+    private static final Long DEFAULT_EDAD = 1L;
+    private static final Long UPDATED_EDAD = 2L;
+
     private static final String DEFAULT_INTERVENCIONES = "AAAAAAAAAA";
     private static final String UPDATED_INTERVENCIONES = "BBBBBBBBBB";
 
     private static final String DEFAULT_ANTECEDENTES_FAMILIARES = "AAAAAAAAAA";
     private static final String UPDATED_ANTECEDENTES_FAMILIARES = "BBBBBBBBBB";
 
-    private static final String DEFAULT_ESTADO_GENERAL = "AAAAAAAAAA";
-    private static final String UPDATED_ESTADO_GENERAL = "BBBBBBBBBB";
+    private static final String DEFAULT_ESTADO = "AAAAAAAAAA";
+    private static final String UPDATED_ESTADO = "BBBBBBBBBB";
 
     private static final String DEFAULT_ENFERMEDADES = "AAAAAAAAAA";
     private static final String UPDATED_ENFERMEDADES = "BBBBBBBBBB";
@@ -72,9 +84,13 @@ class PacienteResourceIT {
      */
     public static Paciente createEntity(EntityManager em) {
         Paciente paciente = new Paciente()
+            .nombre(DEFAULT_NOMBRE)
+            .dni(DEFAULT_DNI)
+            .sexo(DEFAULT_SEXO)
+            .edad(DEFAULT_EDAD)
             .intervenciones(DEFAULT_INTERVENCIONES)
             .antecedentesFamiliares(DEFAULT_ANTECEDENTES_FAMILIARES)
-            .estadoGeneral(DEFAULT_ESTADO_GENERAL)
+            .estado(DEFAULT_ESTADO)
             .enfermedades(DEFAULT_ENFERMEDADES)
             .discapacidades(DEFAULT_DISCAPACIDADES)
             .tipoSangre(DEFAULT_TIPO_SANGRE);
@@ -89,9 +105,13 @@ class PacienteResourceIT {
      */
     public static Paciente createUpdatedEntity(EntityManager em) {
         Paciente paciente = new Paciente()
+            .nombre(UPDATED_NOMBRE)
+            .dni(UPDATED_DNI)
+            .sexo(UPDATED_SEXO)
+            .edad(UPDATED_EDAD)
             .intervenciones(UPDATED_INTERVENCIONES)
             .antecedentesFamiliares(UPDATED_ANTECEDENTES_FAMILIARES)
-            .estadoGeneral(UPDATED_ESTADO_GENERAL)
+            .estado(UPDATED_ESTADO)
             .enfermedades(UPDATED_ENFERMEDADES)
             .discapacidades(UPDATED_DISCAPACIDADES)
             .tipoSangre(UPDATED_TIPO_SANGRE);
@@ -116,9 +136,13 @@ class PacienteResourceIT {
         List<Paciente> pacienteList = pacienteRepository.findAll();
         assertThat(pacienteList).hasSize(databaseSizeBeforeCreate + 1);
         Paciente testPaciente = pacienteList.get(pacienteList.size() - 1);
+        assertThat(testPaciente.getNombre()).isEqualTo(DEFAULT_NOMBRE);
+        assertThat(testPaciente.getDni()).isEqualTo(DEFAULT_DNI);
+        assertThat(testPaciente.getSexo()).isEqualTo(DEFAULT_SEXO);
+        assertThat(testPaciente.getEdad()).isEqualTo(DEFAULT_EDAD);
         assertThat(testPaciente.getIntervenciones()).isEqualTo(DEFAULT_INTERVENCIONES);
         assertThat(testPaciente.getAntecedentesFamiliares()).isEqualTo(DEFAULT_ANTECEDENTES_FAMILIARES);
-        assertThat(testPaciente.getEstadoGeneral()).isEqualTo(DEFAULT_ESTADO_GENERAL);
+        assertThat(testPaciente.getEstado()).isEqualTo(DEFAULT_ESTADO);
         assertThat(testPaciente.getEnfermedades()).isEqualTo(DEFAULT_ENFERMEDADES);
         assertThat(testPaciente.getDiscapacidades()).isEqualTo(DEFAULT_DISCAPACIDADES);
         assertThat(testPaciente.getTipoSangre()).isEqualTo(DEFAULT_TIPO_SANGRE);
@@ -144,10 +168,95 @@ class PacienteResourceIT {
 
     @Test
     @Transactional
-    void checkEstadoGeneralIsRequired() throws Exception {
+    void checkNombreIsRequired() throws Exception {
         int databaseSizeBeforeTest = pacienteRepository.findAll().size();
         // set the field null
-        paciente.setEstadoGeneral(null);
+        paciente.setNombre(null);
+
+        // Create the Paciente, which fails.
+
+        restPacienteMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(paciente)))
+            .andExpect(status().isBadRequest());
+
+        List<Paciente> pacienteList = pacienteRepository.findAll();
+        assertThat(pacienteList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkDniIsRequired() throws Exception {
+        int databaseSizeBeforeTest = pacienteRepository.findAll().size();
+        // set the field null
+        paciente.setDni(null);
+
+        // Create the Paciente, which fails.
+
+        restPacienteMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(paciente)))
+            .andExpect(status().isBadRequest());
+
+        List<Paciente> pacienteList = pacienteRepository.findAll();
+        assertThat(pacienteList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkSexoIsRequired() throws Exception {
+        int databaseSizeBeforeTest = pacienteRepository.findAll().size();
+        // set the field null
+        paciente.setSexo(null);
+
+        // Create the Paciente, which fails.
+
+        restPacienteMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(paciente)))
+            .andExpect(status().isBadRequest());
+
+        List<Paciente> pacienteList = pacienteRepository.findAll();
+        assertThat(pacienteList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkEdadIsRequired() throws Exception {
+        int databaseSizeBeforeTest = pacienteRepository.findAll().size();
+        // set the field null
+        paciente.setEdad(null);
+
+        // Create the Paciente, which fails.
+
+        restPacienteMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(paciente)))
+            .andExpect(status().isBadRequest());
+
+        List<Paciente> pacienteList = pacienteRepository.findAll();
+        assertThat(pacienteList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkEstadoIsRequired() throws Exception {
+        int databaseSizeBeforeTest = pacienteRepository.findAll().size();
+        // set the field null
+        paciente.setEstado(null);
+
+        // Create the Paciente, which fails.
+
+        restPacienteMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(paciente)))
+            .andExpect(status().isBadRequest());
+
+        List<Paciente> pacienteList = pacienteRepository.findAll();
+        assertThat(pacienteList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkTipoSangreIsRequired() throws Exception {
+        int databaseSizeBeforeTest = pacienteRepository.findAll().size();
+        // set the field null
+        paciente.setTipoSangre(null);
 
         // Create the Paciente, which fails.
 
@@ -171,9 +280,13 @@ class PacienteResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(paciente.getId().intValue())))
+            .andExpect(jsonPath("$.[*].nombre").value(hasItem(DEFAULT_NOMBRE)))
+            .andExpect(jsonPath("$.[*].dni").value(hasItem(DEFAULT_DNI.intValue())))
+            .andExpect(jsonPath("$.[*].sexo").value(hasItem(DEFAULT_SEXO)))
+            .andExpect(jsonPath("$.[*].edad").value(hasItem(DEFAULT_EDAD.intValue())))
             .andExpect(jsonPath("$.[*].intervenciones").value(hasItem(DEFAULT_INTERVENCIONES)))
             .andExpect(jsonPath("$.[*].antecedentesFamiliares").value(hasItem(DEFAULT_ANTECEDENTES_FAMILIARES)))
-            .andExpect(jsonPath("$.[*].estadoGeneral").value(hasItem(DEFAULT_ESTADO_GENERAL)))
+            .andExpect(jsonPath("$.[*].estado").value(hasItem(DEFAULT_ESTADO)))
             .andExpect(jsonPath("$.[*].enfermedades").value(hasItem(DEFAULT_ENFERMEDADES)))
             .andExpect(jsonPath("$.[*].discapacidades").value(hasItem(DEFAULT_DISCAPACIDADES)))
             .andExpect(jsonPath("$.[*].tipoSangre").value(hasItem(DEFAULT_TIPO_SANGRE)));
@@ -191,9 +304,13 @@ class PacienteResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(paciente.getId().intValue()))
+            .andExpect(jsonPath("$.nombre").value(DEFAULT_NOMBRE))
+            .andExpect(jsonPath("$.dni").value(DEFAULT_DNI.intValue()))
+            .andExpect(jsonPath("$.sexo").value(DEFAULT_SEXO))
+            .andExpect(jsonPath("$.edad").value(DEFAULT_EDAD.intValue()))
             .andExpect(jsonPath("$.intervenciones").value(DEFAULT_INTERVENCIONES))
             .andExpect(jsonPath("$.antecedentesFamiliares").value(DEFAULT_ANTECEDENTES_FAMILIARES))
-            .andExpect(jsonPath("$.estadoGeneral").value(DEFAULT_ESTADO_GENERAL))
+            .andExpect(jsonPath("$.estado").value(DEFAULT_ESTADO))
             .andExpect(jsonPath("$.enfermedades").value(DEFAULT_ENFERMEDADES))
             .andExpect(jsonPath("$.discapacidades").value(DEFAULT_DISCAPACIDADES))
             .andExpect(jsonPath("$.tipoSangre").value(DEFAULT_TIPO_SANGRE));
@@ -219,9 +336,13 @@ class PacienteResourceIT {
         // Disconnect from session so that the updates on updatedPaciente are not directly saved in db
         em.detach(updatedPaciente);
         updatedPaciente
+            .nombre(UPDATED_NOMBRE)
+            .dni(UPDATED_DNI)
+            .sexo(UPDATED_SEXO)
+            .edad(UPDATED_EDAD)
             .intervenciones(UPDATED_INTERVENCIONES)
             .antecedentesFamiliares(UPDATED_ANTECEDENTES_FAMILIARES)
-            .estadoGeneral(UPDATED_ESTADO_GENERAL)
+            .estado(UPDATED_ESTADO)
             .enfermedades(UPDATED_ENFERMEDADES)
             .discapacidades(UPDATED_DISCAPACIDADES)
             .tipoSangre(UPDATED_TIPO_SANGRE);
@@ -238,9 +359,13 @@ class PacienteResourceIT {
         List<Paciente> pacienteList = pacienteRepository.findAll();
         assertThat(pacienteList).hasSize(databaseSizeBeforeUpdate);
         Paciente testPaciente = pacienteList.get(pacienteList.size() - 1);
+        assertThat(testPaciente.getNombre()).isEqualTo(UPDATED_NOMBRE);
+        assertThat(testPaciente.getDni()).isEqualTo(UPDATED_DNI);
+        assertThat(testPaciente.getSexo()).isEqualTo(UPDATED_SEXO);
+        assertThat(testPaciente.getEdad()).isEqualTo(UPDATED_EDAD);
         assertThat(testPaciente.getIntervenciones()).isEqualTo(UPDATED_INTERVENCIONES);
         assertThat(testPaciente.getAntecedentesFamiliares()).isEqualTo(UPDATED_ANTECEDENTES_FAMILIARES);
-        assertThat(testPaciente.getEstadoGeneral()).isEqualTo(UPDATED_ESTADO_GENERAL);
+        assertThat(testPaciente.getEstado()).isEqualTo(UPDATED_ESTADO);
         assertThat(testPaciente.getEnfermedades()).isEqualTo(UPDATED_ENFERMEDADES);
         assertThat(testPaciente.getDiscapacidades()).isEqualTo(UPDATED_DISCAPACIDADES);
         assertThat(testPaciente.getTipoSangre()).isEqualTo(UPDATED_TIPO_SANGRE);
@@ -315,9 +440,12 @@ class PacienteResourceIT {
         partialUpdatedPaciente.setId(paciente.getId());
 
         partialUpdatedPaciente
+            .nombre(UPDATED_NOMBRE)
+            .sexo(UPDATED_SEXO)
             .intervenciones(UPDATED_INTERVENCIONES)
-            .estadoGeneral(UPDATED_ESTADO_GENERAL)
-            .discapacidades(UPDATED_DISCAPACIDADES)
+            .antecedentesFamiliares(UPDATED_ANTECEDENTES_FAMILIARES)
+            .estado(UPDATED_ESTADO)
+            .enfermedades(UPDATED_ENFERMEDADES)
             .tipoSangre(UPDATED_TIPO_SANGRE);
 
         restPacienteMockMvc
@@ -332,11 +460,15 @@ class PacienteResourceIT {
         List<Paciente> pacienteList = pacienteRepository.findAll();
         assertThat(pacienteList).hasSize(databaseSizeBeforeUpdate);
         Paciente testPaciente = pacienteList.get(pacienteList.size() - 1);
+        assertThat(testPaciente.getNombre()).isEqualTo(UPDATED_NOMBRE);
+        assertThat(testPaciente.getDni()).isEqualTo(DEFAULT_DNI);
+        assertThat(testPaciente.getSexo()).isEqualTo(UPDATED_SEXO);
+        assertThat(testPaciente.getEdad()).isEqualTo(DEFAULT_EDAD);
         assertThat(testPaciente.getIntervenciones()).isEqualTo(UPDATED_INTERVENCIONES);
-        assertThat(testPaciente.getAntecedentesFamiliares()).isEqualTo(DEFAULT_ANTECEDENTES_FAMILIARES);
-        assertThat(testPaciente.getEstadoGeneral()).isEqualTo(UPDATED_ESTADO_GENERAL);
-        assertThat(testPaciente.getEnfermedades()).isEqualTo(DEFAULT_ENFERMEDADES);
-        assertThat(testPaciente.getDiscapacidades()).isEqualTo(UPDATED_DISCAPACIDADES);
+        assertThat(testPaciente.getAntecedentesFamiliares()).isEqualTo(UPDATED_ANTECEDENTES_FAMILIARES);
+        assertThat(testPaciente.getEstado()).isEqualTo(UPDATED_ESTADO);
+        assertThat(testPaciente.getEnfermedades()).isEqualTo(UPDATED_ENFERMEDADES);
+        assertThat(testPaciente.getDiscapacidades()).isEqualTo(DEFAULT_DISCAPACIDADES);
         assertThat(testPaciente.getTipoSangre()).isEqualTo(UPDATED_TIPO_SANGRE);
     }
 
@@ -353,9 +485,13 @@ class PacienteResourceIT {
         partialUpdatedPaciente.setId(paciente.getId());
 
         partialUpdatedPaciente
+            .nombre(UPDATED_NOMBRE)
+            .dni(UPDATED_DNI)
+            .sexo(UPDATED_SEXO)
+            .edad(UPDATED_EDAD)
             .intervenciones(UPDATED_INTERVENCIONES)
             .antecedentesFamiliares(UPDATED_ANTECEDENTES_FAMILIARES)
-            .estadoGeneral(UPDATED_ESTADO_GENERAL)
+            .estado(UPDATED_ESTADO)
             .enfermedades(UPDATED_ENFERMEDADES)
             .discapacidades(UPDATED_DISCAPACIDADES)
             .tipoSangre(UPDATED_TIPO_SANGRE);
@@ -372,9 +508,13 @@ class PacienteResourceIT {
         List<Paciente> pacienteList = pacienteRepository.findAll();
         assertThat(pacienteList).hasSize(databaseSizeBeforeUpdate);
         Paciente testPaciente = pacienteList.get(pacienteList.size() - 1);
+        assertThat(testPaciente.getNombre()).isEqualTo(UPDATED_NOMBRE);
+        assertThat(testPaciente.getDni()).isEqualTo(UPDATED_DNI);
+        assertThat(testPaciente.getSexo()).isEqualTo(UPDATED_SEXO);
+        assertThat(testPaciente.getEdad()).isEqualTo(UPDATED_EDAD);
         assertThat(testPaciente.getIntervenciones()).isEqualTo(UPDATED_INTERVENCIONES);
         assertThat(testPaciente.getAntecedentesFamiliares()).isEqualTo(UPDATED_ANTECEDENTES_FAMILIARES);
-        assertThat(testPaciente.getEstadoGeneral()).isEqualTo(UPDATED_ESTADO_GENERAL);
+        assertThat(testPaciente.getEstado()).isEqualTo(UPDATED_ESTADO);
         assertThat(testPaciente.getEnfermedades()).isEqualTo(UPDATED_ENFERMEDADES);
         assertThat(testPaciente.getDiscapacidades()).isEqualTo(UPDATED_DISCAPACIDADES);
         assertThat(testPaciente.getTipoSangre()).isEqualTo(UPDATED_TIPO_SANGRE);

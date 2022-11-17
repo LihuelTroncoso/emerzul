@@ -6,6 +6,26 @@
   "entityTableName": "paciente",
   "fields": [
     {
+      "fieldName": "nombre",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "dni",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "sexo",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "edad",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"]
+    },
+    {
       "fieldName": "intervenciones",
       "fieldType": "String"
     },
@@ -14,7 +34,7 @@
       "fieldType": "String"
     },
     {
-      "fieldName": "estadoGeneral",
+      "fieldName": "estado",
       "fieldType": "String",
       "fieldValidateRules": ["required"]
     },
@@ -28,7 +48,8 @@
     },
     {
       "fieldName": "tipoSangre",
-      "fieldType": "String"
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
     }
   ],
   "fluentMethods": true,
@@ -38,10 +59,16 @@
   "readOnly": false,
   "relationships": [
     {
-      "otherEntityName": "usuario",
+      "otherEntityName": "habitacion",
       "ownerSide": true,
-      "relationshipName": "usuario",
+      "relationshipName": "habitacion",
       "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "llamado",
+      "otherEntityRelationshipName": "paciente",
+      "relationshipName": "llamado",
+      "relationshipType": "many-to-one"
     }
   ],
   "service": "no"
