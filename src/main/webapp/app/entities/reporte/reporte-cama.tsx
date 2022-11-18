@@ -82,32 +82,36 @@ export const Reporte = () => {
               </tr>
             </thead>
             <tbody>
-              {reporteList.map((reporte, i) => (
-                <tr key={`entity-${i}`} data-cy="entityTable">
-                  <td>
-                    <Button tag={Link} to={`/reporte/${reporte.id}`} color="link" size="sm">
-                      {reporte.id}
-                    </Button>
-                  </td>
-                  <td>{reporte.area}</td>
-                  <td>{reporte.origen}</td>
-                  <td>{reporte.hora ? <TextFormat type="date" value={reporte.hora} format={APP_DATE_FORMAT} /> : null}</td>
-                  <td>{reporte.llamado ? <Link to={`/llamado/${reporte.llamado.id}`}>{reporte.llamado.id}</Link> : ''}</td>
-                  <td className="text-end">
-                    <div className="btn-group flex-btn-group-container">
-                      <Button tag={Link} to={`/reporte/${reporte.id}`} color="info" size="sm" data-cy="entityDetailsButton">
-                        <FontAwesomeIcon icon="eye" /> <span className="d-none d-md-inline">Vista</span>
+              {reporteList.map((reporte, i) =>
+                reporte.origen == 'cama' ? (
+                  <tr key={`entity-${i}`} data-cy="entityTable">
+                    <td>
+                      <Button tag={Link} to={`/reporte/${reporte.id}`} color="link" size="sm">
+                        {reporte.id}
                       </Button>
-                      <Button tag={Link} to={`/reporte/${reporte.id}/edit`} color="primary" size="sm" data-cy="entityEditButton">
-                        <FontAwesomeIcon icon="pencil-alt" /> <span className="d-none d-md-inline">Editar</span>
-                      </Button>
-                      <Button tag={Link} to={`/reporte/${reporte.id}/delete`} color="danger" size="sm" data-cy="entityDeleteButton">
-                        <FontAwesomeIcon icon="trash" /> <span className="d-none d-md-inline">Eliminar</span>
-                      </Button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
+                    </td>
+                    <td>{reporte.area}</td>
+                    <td>{reporte.origen}</td>
+                    <td>{reporte.hora ? <TextFormat type="date" value={reporte.hora} format={APP_DATE_FORMAT} /> : null}</td>
+                    <td>{reporte.llamado ? <Link to={`/llamado/${reporte.llamado.id}`}>{reporte.llamado.id}</Link> : ''}</td>
+                    <td className="text-end">
+                      <div className="btn-group flex-btn-group-container">
+                        <Button tag={Link} to={`/reporte/${reporte.id}`} color="info" size="sm" data-cy="entityDetailsButton">
+                          <FontAwesomeIcon icon="eye" /> <span className="d-none d-md-inline">Vista</span>
+                        </Button>
+                        <Button tag={Link} to={`/reporte/${reporte.id}/edit`} color="primary" size="sm" data-cy="entityEditButton">
+                          <FontAwesomeIcon icon="pencil-alt" /> <span className="d-none d-md-inline">Editar</span>
+                        </Button>
+                        <Button tag={Link} to={`/reporte/${reporte.id}/delete`} color="danger" size="sm" data-cy="entityDeleteButton">
+                          <FontAwesomeIcon icon="trash" /> <span className="d-none d-md-inline">Eliminar</span>
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
+                ) : (
+                  <span></span>
+                )
+              )}
             </tbody>
           </Table>
         ) : (

@@ -32,15 +32,6 @@ export const Paciente = () => {
       <h2 id="paciente-heading" data-cy="PacienteHeading">
         Pacientes
         <div className="d-flex justify-content-end">
-          <Link
-            to="/api/export/pacientes"
-            className="btn btn-primary jh-create-entity2"
-            id="jh-create-entity2"
-            data-cy="entityCreateButton"
-          >
-            <FontAwesomeIcon icon="plus" />
-            &nbsp; aaaaaa
-          </Link>
           <Button className="me-2" color="info" onClick={handleSyncList} disabled={loading}>
             <FontAwesomeIcon icon="sync" spin={loading} /> Refrescar lista
           </Button>
